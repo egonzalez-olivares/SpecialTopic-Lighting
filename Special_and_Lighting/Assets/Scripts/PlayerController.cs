@@ -15,10 +15,13 @@ public class PlayerController : MonoBehaviour
     private float pitch = 0.0f;
     private Rigidbody rb;
 
+    GameController gameController;
+
     // Use this for initialization
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
     // Update is called once per frame
@@ -53,6 +56,14 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("You fell...");
                 break;
             default:break;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Enemy")
+        {
+            gameController.EndGame();
         }
     }
 }
