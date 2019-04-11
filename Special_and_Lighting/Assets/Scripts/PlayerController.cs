@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float maxPitch;
     public float minPitch;
     
-    private float yaw = 0.0f;
+    private float yaw = -90.0f;
     private float pitch = 0.0f;
     private Rigidbody rb;
 
@@ -22,6 +22,11 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+
+        if(!gameController)
+        {
+            Debug.Log("GameController not found");
+        }
     }
 
     // Update is called once per frame
@@ -51,9 +56,11 @@ public class PlayerController : MonoBehaviour
         {
             case "Goal":
                 Debug.Log("Made it to the Exit Portal!");
+                gameController.EndGame("Made it to the Exit Portal!");
                 break;
             case "Pit":
                 Debug.Log("You fell...");
+                gameController.EndGame("You fell...");
                 break;
             default:break;
         }
@@ -63,7 +70,8 @@ public class PlayerController : MonoBehaviour
     {
         if(collision.gameObject.tag == "Enemy")
         {
-            gameController.EndGame();
+            Debug.Log("You died");
+            gameController.EndGame("You died");
         }
     }
 }
